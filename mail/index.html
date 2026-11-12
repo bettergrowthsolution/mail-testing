@@ -7,16 +7,15 @@
 <title>Sign in · BetterGrowth Mail</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <!-- Favicon -->
-<link rel="icon" href="bettergrowthsolutions.jpg" type="image/jpeg" />
-<link rel="apple-touch-icon" href="bettergrowthsolutions.jpg" />
+<link rel="icon" href="bettergrowthsolutions.jpg" type="image/jpeg"/>
+<link rel="apple-touch-icon" href="bettergrowthsolutions.jpg"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
   :root{
     --navy-950:#050f1f; --navy-900:#07162b; --navy-800:#0b2038; --navy-700:#143252;
     --gold:#d9a62e; --gold-deep:#b8841a; --gold-soft:#f1d899;
     --paper:#f4f5f8; --white:#fff; --ink:#0b1b30; --muted:#5a6a7f;
-    --line:#dde2ea; --bad:#9b1c1c; --bad-bg:#fde4e4;
+    --line:#dde2ea; --bad:#9b1c1c; --bad-bg:#fde4e4; --ok:#1d7a4d;
     --serif:"Cormorant Garamond",Georgia,serif;
     --sans:"Jost",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   }
@@ -54,8 +53,8 @@
     letter-spacing:.18em;text-transform:uppercase;color:var(--gold-soft);
     padding:.4rem .8rem;border:1px solid rgba(241,216,153,.3);border-radius:999px;
     background:rgba(255,255,255,.04);backdrop-filter:blur(6px);margin-bottom:1.2rem}
-  .eyebrow i{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 0 rgba(217,166,46,.7);animation:pulse 2s infinite}
-  @keyframes pulse{70%{box-shadow:0 0 0 8px rgba(217,166,46,0)}100%{box-shadow:0 0 0 0 rgba(217,166,46,0)}}
+  .eyebrow i{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(217,166,46,.7)}70%{box-shadow:0 0 0 8px rgba(217,166,46,0)}100%{box-shadow:0 0 0 0 rgba(217,166,46,0)}}
   .brand-copy h1{font-family:var(--serif);font-weight:600;
     font-size:clamp(2.1rem,4.4vw,3.8rem);line-height:1.04;letter-spacing:-.01em;margin:0 0 1rem}
   .brand-copy h1 em{font-style:normal;color:var(--gold)}
@@ -76,9 +75,7 @@
   @keyframes pop{to{opacity:1}}
 
   /* ───────── Form side ───────── */
-  .panel{background:
-      radial-gradient(60% 40% at 100% 0%,rgba(217,166,46,.10),transparent 70%),
-      var(--paper);
+  .panel{background:radial-gradient(60% 40% at 100% 0%,rgba(217,166,46,.10),transparent 70%),var(--paper);
     display:flex;flex-direction:column;
     padding:clamp(22px,5vw,60px);
     padding-top:max(clamp(22px,5vw,60px),env(safe-area-inset-top));
@@ -86,12 +83,27 @@
   .panel-main{flex:1;display:flex;align-items:center;justify-content:center}
   .box{width:100%;max-width:420px;animation:rise .6s cubic-bezier(.2,.8,.2,1) both}
   @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .step{animation:rise .45s cubic-bezier(.2,.8,.2,1) both}
+
+  /* stepper */
+  .stepper{display:flex;align-items:center;gap:.6rem;margin-bottom:1.4rem;font-size:.78rem;font-weight:500;
+    letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .stepper .dot{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;
+    background:var(--white);border:1.5px solid var(--line);color:var(--muted);font-size:.75rem;letter-spacing:0;
+    transition:all .25s}
+  .stepper .s{display:flex;align-items:center;gap:.5rem}
+  .stepper .s.active{color:var(--ink)}
+  .stepper .s.active .dot{background:var(--gold);border-color:var(--gold);color:var(--navy-900)}
+  .stepper .s.done .dot{background:var(--navy-800);border-color:var(--navy-800);color:var(--gold)}
+  .stepper .bar{flex:1;height:2px;background:var(--line);border-radius:2px;position:relative;overflow:hidden;max-width:60px}
+  .stepper .bar::after{content:"";position:absolute;inset:0;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+  .stepper.at2 .bar::after{transform:scaleX(1)}
 
   .badge{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:14px;
     background:linear-gradient(145deg,var(--navy-700),var(--navy-900));
     color:var(--gold);margin-bottom:1.1rem;
     box-shadow:0 10px 24px -10px rgba(7,22,43,.6),inset 0 0 0 1px rgba(255,255,255,.08)}
-  .box h2{font-family:var(--serif);font-weight:700;
+  h2{font-family:var(--serif);font-weight:700;
     font-size:clamp(1.9rem,4vw,2.5rem);margin:0 0 .3rem;letter-spacing:-.01em;line-height:1.1}
   .lead{margin:0 0 1.6rem;color:var(--muted);font-size:.97rem}
 
@@ -140,10 +152,8 @@
   .captcha-refresh:active svg{transform:rotate(180deg)}
   .captcha-input{width:100%;text-align:center;letter-spacing:.45em;
     font-size:1.2rem;font-weight:700;margin-top:.55rem}
-  .captcha-input.shake{animation:shake .35s}
-  @keyframes shake{
-    20%{transform:translateX(-6px)}40%{transform:translateX(6px)}
-    60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+  .shake{animation:shake .35s}
+  @keyframes shake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
 
   .btn{width:100%;height:54px;border:0;border-radius:12px;font:inherit;
     font-weight:600;font-size:1.02rem;cursor:pointer;display:inline-flex;
@@ -160,7 +170,7 @@
 
   .spinner{width:18px;height:18px;border-radius:50%;
     border:2.5px solid rgba(7,22,43,.25);border-top-color:var(--navy-900);
-    animation:spin .7s linear infinite}
+    animation:spin .7s linear infinite;display:inline-block}
   @keyframes spin{to{transform:rotate(360deg)}}
 
   .error{display:flex;gap:.6rem;align-items:flex-start;margin-top:.9rem;
@@ -171,18 +181,40 @@
   .secure{display:flex;align-items:center;justify-content:center;gap:.4rem;
     margin-top:1.1rem;font-size:.8rem;color:var(--muted)}
 
+  /* OTP */
+  .sent-to{color:var(--navy-700);font-weight:600;word-break:break-word}
+  .otp-boxes{display:flex;gap:.7rem;justify-content:center;margin:1.5rem 0 .5rem}
+  .otp-boxes input{
+    width:68px;height:78px;text-align:center;padding:0;
+    font-family:ui-monospace,Menlo,Consolas,monospace;font-size:2.2rem;font-weight:700;
+    background:var(--white);border:2px solid var(--line);border-radius:16px;
+    color:var(--navy-900);caret-color:var(--gold-deep);
+    transition:border-color .15s,box-shadow .15s,transform .15s,background .15s}
+  .otp-boxes input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(217,166,46,.28);transform:translateY(-2px)}
+  .otp-boxes input.filled{border-color:var(--gold-deep);background:#fffdf5}
+  .otp-boxes input.err{border-color:#c0392b;background:#fff8f8;animation:shake .35s}
+  .otp-boxes.ok input{border-color:var(--ok);background:#f2fbf6;color:var(--ok)}
+
+  .otp-actions{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-top:1.1rem;font-size:.9rem}
+  .linkbtn{background:none;border:0;padding:.4rem 0;font:inherit;font-weight:500;color:var(--navy-700);cursor:pointer}
+  .linkbtn:hover:not(:disabled){color:var(--gold-deep);text-decoration:underline}
+  .linkbtn:disabled{color:#9aa6b5;cursor:not-allowed}
+
+  .success{text-align:center;padding:1rem 0}
+  .success .check{width:72px;height:72px;margin:0 auto 1rem;border-radius:50%;display:grid;place-items:center;
+    background:rgba(29,122,77,.1);color:var(--ok);animation:pop2 .5s cubic-bezier(.2,1.4,.4,1) both}
+  @keyframes pop2{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+
   .credit{text-align:center;color:var(--muted);font-size:.88rem;padding-top:1.4rem}
   .credit a{color:var(--ink);font-weight:600;text-decoration:none;
     border-bottom:2px solid var(--gold);padding-bottom:1px;transition:color .15s}
   .credit a:hover{color:var(--gold-deep)}
-  .credit .heart{color:var(--gold-deep)}
 
   /* ───────── Mobile ───────── */
   @media (max-width:860px){
     .shell{grid-template-columns:1fr;grid-template-rows:auto 1fr}
     .brand{padding:max(20px,env(safe-area-inset-top)) 20px 44px;
-      background:
-        radial-gradient(150% 120% at 100% 0%,#123763 0%,rgba(18,55,99,0) 60%),var(--navy-800)}
+      background:radial-gradient(150% 120% at 100% 0%,#123763 0%,rgba(18,55,99,0) 60%),var(--navy-800)}
     .logo{width:min(220px,62%);margin:0 auto}
     .brand-copy{display:none}
     .growth{height:100%;opacity:.55}
@@ -193,8 +225,12 @@
     .panel-main{align-items:flex-start}
     .box{max-width:100%}
     .badge{display:none}
-    .box h2{font-size:2rem}
+    h2{font-size:2rem}
     .lead{margin-bottom:1.3rem}
+  }
+  @media (max-width:420px){
+    .otp-boxes{gap:.45rem}
+    .otp-boxes input{width:56px;height:66px;font-size:1.8rem;border-radius:13px}
   }
   @media (max-width:380px){
     .captcha-code{font-size:1.4rem;letter-spacing:.3em}
@@ -209,17 +245,16 @@
 <body>
 <div class="shell">
 
+  <!-- ═════════ Brand side ═════════ -->
   <aside class="brand">
     <span class="orb a"></span><span class="orb b"></span>
 
-    <!-- Inline brand logo (swap with <img src="logo.png"> if you host the file) -->
     <svg class="logo" viewBox="0 0 520 130" role="img" aria-label="BetterGrowth Solutions">
       <defs>
         <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stop-color="#f1d899"/><stop offset="1" stop-color="#b8841a"/>
         </linearGradient>
       </defs>
-      <!-- monogram -->
       <g>
         <path d="M18 14v78" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
         <path d="M18 62c0-18 12-26 28-26s26 10 26 26-10 28-26 28-28-8-28-28Z" fill="none" stroke="#fff" stroke-width="9"/>
@@ -240,7 +275,7 @@
       <ul class="perks">
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Instant delivery status on every email</li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Complete sent history, always searchable</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Private team accounts for your company</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Two-step verified, private team accounts</li>
       </ul>
     </div>
 
@@ -259,75 +294,115 @@
     </svg>
   </aside>
 
+  <!-- ═════════ Form side ═════════ -->
   <main class="panel">
     <div class="panel-main">
       <div class="box">
-        <div class="badge" aria-hidden="true">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 8 8 6 8-6"/></svg>
+
+        <div class="stepper" id="stepper" aria-hidden="true">
+          <span class="s active" id="sp1"><span class="dot">1</span>Account</span>
+          <span class="bar"></span>
+          <span class="s" id="sp2"><span class="dot">2</span>Verify</span>
         </div>
-        <h2>Welcome back</h2>
-        <p class="lead">Sign in with your company email, password, and the 4-digit code.</p>
 
-        <form id="loginForm" novalidate>
+        <!-- ═══ STEP 1 ═══ -->
+        <section id="step1" class="step">
+          <div class="badge" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 8 8 6 8-6"/></svg>
+          </div>
+          <h2>Welcome back</h2>
+          <p class="lead">Sign in with your company email and password. We'll email you a code to confirm it's you.</p>
 
-          <div class="field">
-            <label for="email">Company email</label>
-            <div class="control">
-              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 8 8 6 8-6"/></svg>
-              <input id="email" type="email" inputmode="email" autocomplete="username"
-                     autocapitalize="none" spellcheck="false"
-                     placeholder="yourname@bettergrowthsolutions.com" required/>
+          <form id="loginForm" novalidate>
+            <div class="field">
+              <label for="email">Company email</label>
+              <div class="control">
+                <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 8 8 6 8-6"/></svg>
+                <input id="email" type="email" inputmode="email" autocomplete="username"
+                       autocapitalize="none" spellcheck="false"
+                       placeholder="yourname@bettergrowthsolutions.com" required/>
+              </div>
+              <span class="hint">Just type your name — we'll add <b>@bettergrowthsolutions.com</b> for you.</span>
             </div>
-            <span class="hint">Just type your name — we'll add <b>@bettergrowthsolutions.com</b> for you.</span>
-          </div>
 
-          <div class="field">
-            <label for="password">Password</label>
-            <div class="control">
-              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-              <input id="password" class="has-toggle" type="password"
-                     autocomplete="current-password" placeholder="Enter your password" required/>
-              <button type="button" class="toggle" id="togglePw"
-                      aria-label="Show password" aria-pressed="false">
-                <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                     stroke-linejoin="round" aria-hidden="true">
-                  <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/>
-                  <circle cx="12" cy="12" r="3"/>
-                </svg>
-              </button>
+            <div class="field">
+              <label for="password">Password</label>
+              <div class="control">
+                <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+                <input id="password" class="has-toggle" type="password"
+                       autocomplete="current-password" placeholder="Enter your password" required/>
+                <button type="button" class="toggle" id="togglePw" aria-label="Show password" aria-pressed="false">
+                  <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div class="field">
-            <label for="captchaInput">Verification code</label>
-            <div class="captcha-row">
-              <div class="captcha-code" id="captchaCode" aria-hidden="true">0000</div>
-              <button type="button" class="captcha-refresh" id="captchaRefresh"
-                      title="New code" aria-label="Generate new code">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.5-4M4 4v4h4"/><path d="M4 13a8 8 0 0 0 14.5 4M20 20v-4h-4"/></svg>
-              </button>
+            <div class="field">
+              <label for="captchaInput">Captcha code</label>
+              <div class="captcha-row">
+                <div class="captcha-code" id="captchaCode" aria-hidden="true">0000</div>
+                <button type="button" class="captcha-refresh" id="captchaRefresh" title="New code" aria-label="Generate new captcha">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.5-4M4 4v4h4"/><path d="M4 13a8 8 0 0 0 14.5 4M20 20v-4h-4"/></svg>
+                </button>
+              </div>
+              <input id="captchaInput" class="captcha-input" type="text"
+                     inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off"
+                     placeholder="Type the 4 digits" required/>
             </div>
-            <input id="captchaInput" class="captcha-input" type="text"
-                   inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off"
-                   placeholder="Type the 4 digits" required/>
+
+            <div id="loginError" class="error" role="alert" aria-live="assertive" hidden>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5h.01"/></svg>
+              <span id="loginErrorText"></span>
+            </div>
+
+            <button id="loginBtn" class="btn btn-primary" type="submit">Continue</button>
+
+            <div class="secure">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+              Secure, private company access
+            </div>
+          </form>
+        </section>
+
+        <!-- ═══ STEP 2 ═══ -->
+        <section id="step2" class="step" hidden>
+          <div class="badge" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <h2>Check your email</h2>
+          <p class="lead">We sent a 4-digit code to <span class="sent-to" id="sentTo">your inbox</span>. Enter it below to finish signing in.</p>
+
+          <div class="otp-boxes" id="otpBoxes">
+            <input type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Digit 1"/>
+            <input type="text" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="Digit 2"/>
+            <input type="text" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="Digit 3"/>
+            <input type="text" inputmode="numeric" maxlength="1" autocomplete="off" aria-label="Digit 4"/>
           </div>
 
-          <div id="loginError" class="error" role="alert" aria-live="assertive" hidden>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5h.01"/>
-            </svg>
-            <span id="loginErrorText"></span>
+          <div id="otpError" class="error" role="alert" aria-live="assertive" hidden>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5h.01"/></svg>
+            <span id="otpErrorText"></span>
           </div>
 
-          <button id="loginBtn" class="btn btn-primary" type="submit">Sign in</button>
+          <button id="verifyBtn" class="btn btn-primary" type="button">Verify &amp; sign in</button>
 
-          <div class="secure">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
-            Secure, private company access
+          <div class="otp-actions">
+            <button type="button" class="linkbtn" id="backBtn">← Use a different account</button>
+            <button type="button" class="linkbtn" id="resendLink">Resend code</button>
           </div>
-        </form>
+        </section>
+
+        <!-- ═══ SUCCESS ═══ -->
+        <section id="stepOk" class="step success" hidden>
+          <div class="check">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+          </div>
+          <h2>You're in</h2>
+          <p class="lead" style="margin:0">Taking you to your workspace…</p>
+        </section>
+
       </div>
     </div>
 
@@ -341,7 +416,7 @@
 const FN = "https://cztelemfiqovsoizrohr.supabase.co/functions/v1/send-email";
 const DOMAIN = "@bettergrowthsolutions.com";
 const ADMIN_EMAIL = "admin" + DOMAIN;
-const $  = id => document.getElementById(id);
+const $ = id => document.getElementById(id);
 
 const store = {
   get(k){ try { return localStorage.getItem(k); } catch { return null; } },
@@ -349,9 +424,14 @@ const store = {
   del(k){ try { localStorage.removeItem(k); } catch {} }
 };
 
+/* ─── State ─── */
+let OTP_TOKEN = null;
+let RESEND_UNTIL = 0;
+let resendTimer = null;
+let verifying = false;
+
 /* ─── Captcha ─── */
 let CAPTCHA_CODE = "";
-
 function newCaptcha() {
   CAPTCHA_CODE = String(Math.floor(1000 + Math.random() * 9000));
   $("captchaCode").textContent = CAPTCHA_CODE;
@@ -364,22 +444,42 @@ $("captchaInput").addEventListener("input", e => {
   hideError();
 });
 
-/* ─── UI ─── */
-function showError(msg) {
-  $("loginErrorText").textContent = msg;
-  $("loginError").hidden = false;
-}
-function hideError() { $("loginError").hidden = true; }
+/* ─── UI helpers ─── */
+function showError(msg){ $("loginErrorText").textContent = msg; $("loginError").hidden = false; }
+function hideError(){ $("loginError").hidden = true; }
+function showOtpError(msg){ $("otpErrorText").textContent = msg; $("otpError").hidden = false; }
+function hideOtpError(){ $("otpError").hidden = true; }
 
 const ARROW = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
 function setBusy(busy) {
   const btn = $("loginBtn");
   btn.disabled = busy;
   btn.innerHTML = busy
-    ? '<span class="spinner" aria-hidden="true"></span> Signing in…'
-    : 'Sign in ' + ARROW;
+    ? '<span class="spinner" aria-hidden="true"></span> Sending code…'
+    : 'Continue ' + ARROW;
 }
 setBusy(false);
+
+function setVerifyBusy(busy) {
+  const btn = $("verifyBtn");
+  verifying = busy;
+  btn.disabled = busy;
+  btn.innerHTML = busy
+    ? '<span class="spinner" aria-hidden="true"></span> Verifying…'
+    : 'Verify &amp; sign in';
+}
+setVerifyBusy(false);
+
+function setStepper(n) {
+  $("stepper").classList.toggle("at2", n >= 2);
+  $("sp1").classList.toggle("active", n === 1);
+  $("sp1").classList.toggle("done", n >= 2);
+  $("sp2").classList.toggle("active", n >= 2);
+  $("sp1").querySelector(".dot").innerHTML = n >= 2
+    ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
+    : "1";
+}
 
 /* Let people type just "name" and fill in the company domain */
 function normalizeEmail(v) {
@@ -393,86 +493,6 @@ $("email").addEventListener("input", () => { $("email").removeAttribute("aria-in
 $("password").addEventListener("input", () => { $("password").removeAttribute("aria-invalid"); hideError(); });
 $("email").addEventListener("blur", () => { $("email").value = normalizeEmail($("email").value); });
 
-/* ─── Login ─── */
-async function login(e) {
-  if (e) e.preventDefault();
-  hideError();
-
-  const email    = normalizeEmail($("email").value);
-  const password = $("password").value;
-  const captcha  = $("captchaInput").value.trim();
-  $("email").value = email;
-
-  $("email").removeAttribute("aria-invalid");
-  $("password").removeAttribute("aria-invalid");
-
-  if (!email) {
-    $("email").setAttribute("aria-invalid","true");
-    $("email").focus();
-    return showError("Enter your email address.");
-  }
-  if (!password) {
-    $("password").setAttribute("aria-invalid","true");
-    $("password").focus();
-    return showError("Enter your password.");
-  }
-  if (captcha.length !== 4) {
-    $("captchaInput").focus();
-    return showError("Enter the 4-digit verification code.");
-  }
-  if (captcha !== CAPTCHA_CODE) {
-    $("captchaInput").classList.add("shake");
-    $("captchaInput").focus();
-    newCaptcha();
-    return showError("Verification code is incorrect. Try the new one.");
-  }
-
-  setBusy(true);
-
-  try {
-    const r = await fetch(FN + "?action=login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password })
-    });
-
-    const data = await r.json().catch(() => ({}));
-
-    if (!r.ok || !data.ok) {
-      newCaptcha();
-      throw new Error(data.error || "Email or password is incorrect.");
-    }
-
-    /* ── Success ── */
-    store.set("token", data.access_token);
-    store.set("user",  data.user?.email || email);
-    store.set("isAdmin", data.isAdmin ? "1" : "0");
-
-    if (data.session_id) {
-      store.set("bg_session_id", data.session_id);
-      store.set("bg_login_at", String(Date.now()));
-    }
-
-    // Clear old captcha flags so dashboard/admin prompt fresh
-    store.del("bg_captcha_ok");
-    store.del("bg_admin_captcha_ok");
-
-    const userEmail = (data.user?.email || email).toLowerCase();
-    const isAdmin   = userEmail === ADMIN_EMAIL;
-
-    setTimeout(() => {
-      location.href = isAdmin ? "admin" : "dashboard";
-    }, 150);
-
-  } catch (err) {
-    const msg = err.message === "Failed to fetch"
-      ? "Can't reach the server. Check your connection and try again."
-      : err.message;
-    showError(msg);
-    setBusy(false);
-  }
-}
-
 /* ─── Password toggle ─── */
 $("togglePw").addEventListener("click", () => {
   const pw = $("password");
@@ -485,13 +505,222 @@ $("togglePw").addEventListener("click", () => {
     : '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>';
 });
 
+/* ─── OTP boxes ─── */
+const otpInputs = [...$("otpBoxes").querySelectorAll("input")];
+
+function clearOtp() {
+  otpInputs.forEach(i => { i.value = ""; i.classList.remove("filled","err"); });
+  $("otpBoxes").classList.remove("ok");
+}
+
+otpInputs.forEach((inp, i) => {
+  inp.addEventListener("input", e => {
+    const v = e.target.value.replace(/\D/g, "").slice(-1);
+    e.target.value = v;
+    e.target.classList.toggle("filled", !!v);
+    hideOtpError();
+    if (v && i < otpInputs.length - 1) otpInputs[i + 1].focus();
+    if (otpInputs.every(b => b.value.length === 1)) verifyOtp();
+  });
+  inp.addEventListener("keydown", e => {
+    if (e.key === "Backspace" && !e.target.value && i > 0) {
+      otpInputs[i - 1].value = ""; otpInputs[i - 1].classList.remove("filled");
+      otpInputs[i - 1].focus();
+    }
+    if (e.key === "ArrowLeft" && i > 0) otpInputs[i - 1].focus();
+    if (e.key === "ArrowRight" && i < otpInputs.length - 1) otpInputs[i + 1].focus();
+    if (e.key === "Enter") verifyOtp();
+  });
+  inp.addEventListener("focus", () => inp.select());
+  inp.addEventListener("paste", e => {
+    e.preventDefault();
+    const text = (e.clipboardData || window.clipboardData).getData("text").replace(/\D/g, "").slice(0, 4);
+    [...text].forEach((ch, j) => { otpInputs[j].value = ch; otpInputs[j].classList.add("filled"); });
+    if (text.length === 4) verifyOtp();
+    else otpInputs[text.length]?.focus();
+  });
+});
+$("verifyBtn").addEventListener("click", verifyOtp);
+
+/* ─── Step transitions ─── */
+function goToStep2(sentTo) {
+  $("sentTo").textContent = sentTo || "your inbox";
+  $("step1").hidden = true;
+  $("step2").hidden = false;
+  setStepper(2);
+  hideOtpError();
+  clearOtp();
+  setTimeout(() => otpInputs[0]?.focus(), 120);
+  startResendCooldown(30);
+}
+
+function startOver() {
+  OTP_TOKEN = null;
+  $("password").value = "";
+  newCaptcha();
+  $("step2").hidden = true;
+  $("step1").hidden = false;
+  setStepper(1);
+  hideOtpError();
+  setVerifyBusy(false);
+  if (resendTimer) { clearInterval(resendTimer); resendTimer = null; }
+  setTimeout(() => $("password").focus(), 120);
+}
+$("backBtn").addEventListener("click", startOver);
+
+/* ─── Step 1: request OTP ─── */
+async function requestOtp(e) {
+  if (e) e.preventDefault();
+  hideError();
+
+  const email    = normalizeEmail($("email").value);
+  const password = $("password").value;
+  const captcha  = $("captchaInput").value.trim();
+  $("email").value = email;
+  $("email").removeAttribute("aria-invalid");
+  $("password").removeAttribute("aria-invalid");
+
+  if (!email) {
+    $("email").setAttribute("aria-invalid","true"); $("email").focus();
+    return showError("Enter your email address.");
+  }
+  if (!password) {
+    $("password").setAttribute("aria-invalid","true"); $("password").focus();
+    return showError("Enter your password.");
+  }
+  if (captcha.length !== 4) {
+    $("captchaInput").focus();
+    return showError("Enter the 4-digit captcha code.");
+  }
+  if (captcha !== CAPTCHA_CODE) {
+    const c = $("captchaInput");
+    newCaptcha();
+    c.classList.add("shake"); c.focus();
+    return showError("Captcha is incorrect. Try the new one.");
+  }
+
+  setBusy(true);
+  try {
+    const r = await fetch(FN + "?action=login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await r.json().catch(() => ({}));
+
+    if (!r.ok || !data.ok) {
+      newCaptcha();
+      throw new Error(data.error || "Email or password is incorrect.");
+    }
+    OTP_TOKEN = data.otp_token;
+    goToStep2(data.sent_to);
+  } catch (err) {
+    showError(err.message === "Failed to fetch"
+      ? "Can't reach the server. Check your connection and try again."
+      : err.message);
+  } finally {
+    setBusy(false);
+  }
+}
+
+/* ─── Step 2: verify OTP ─── */
+async function verifyOtp() {
+  if (verifying) return;
+  hideOtpError();
+  const code = otpInputs.map(i => i.value).join("");
+  if (code.length !== 4) {
+    otpInputs.forEach(i => i.classList.add("err"));
+    setTimeout(() => otpInputs.forEach(i => i.classList.remove("err")), 600);
+    return showOtpError("Enter all 4 digits.");
+  }
+
+  setVerifyBusy(true);
+  try {
+    const r = await fetch(FN + "?action=verify-otp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ otp_token: OTP_TOKEN, code })
+    });
+    const data = await r.json().catch(() => ({}));
+
+    if (!r.ok || !data.ok) {
+      otpInputs.forEach(i => i.classList.add("err"));
+      throw new Error(data.error || "Incorrect code. Try again.");
+    }
+
+    /* ✅ Success */
+    store.set("token", data.access_token);
+    store.set("user",  data.user?.email || "");
+    store.set("isAdmin", data.isAdmin ? "1" : "0");
+    if (data.session_id) {
+      store.set("bg_session_id", data.session_id);
+      store.set("bg_login_at", String(Date.now()));
+    }
+    store.del("bg_captcha_ok");
+    store.del("bg_admin_captcha_ok");
+
+    const userEmail = (data.user?.email || "").toLowerCase();
+    const isAdmin = userEmail === ADMIN_EMAIL;
+
+    $("otpBoxes").classList.add("ok");
+    $("step2").hidden = true;
+    $("stepOk").hidden = false;
+    setTimeout(() => { location.href = isAdmin ? "admin" : "dashboard"; }, 700);
+
+  } catch (err) {
+    showOtpError(err.message === "Failed to fetch"
+      ? "Can't reach the server. Check your connection and try again."
+      : err.message);
+    setTimeout(() => {
+      clearOtp();
+      otpInputs[0]?.focus();
+    }, 600);
+    setVerifyBusy(false);
+  }
+}
+
+/* ─── Resend ─── */
+function startResendCooldown(seconds) {
+  RESEND_UNTIL = Date.now() + seconds * 1000;
+  if (resendTimer) clearInterval(resendTimer);
+  updateResendLabel();
+  resendTimer = setInterval(() => {
+    if (Date.now() >= RESEND_UNTIL) { clearInterval(resendTimer); resendTimer = null; }
+    updateResendLabel();
+  }, 500);
+}
+function updateResendLabel() {
+  const left = Math.max(0, Math.ceil((RESEND_UNTIL - Date.now()) / 1000));
+  const link = $("resendLink");
+  link.disabled = left > 0;
+  link.textContent = left > 0 ? `Resend code (${left}s)` : "Resend code";
+}
+async function resendOtp() {
+  if (Date.now() < RESEND_UNTIL) return;
+  hideOtpError();
+  clearOtp();
+  try {
+    const r = await fetch(FN + "?action=resend-otp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ otp_token: OTP_TOKEN })
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok || !data.ok) throw new Error(data.error || "Could not resend the code.");
+    startResendCooldown(30);
+    otpInputs[0]?.focus();
+  } catch (err) {
+    showOtpError(err.message);
+  }
+}
+$("resendLink").addEventListener("click", resendOtp);
+
 /* ─── Wire + boot ─── */
-$("loginForm").addEventListener("submit", login);
+$("loginForm").addEventListener("submit", requestOtp);
 newCaptcha();
 
-// If already logged in, bounce to correct page
-const existingToken = store.get("token");
-if (existingToken) {
+// Already signed in? Bounce to the right page.
+if (store.get("token")) {
   const userEmail = (store.get("user") || "").toLowerCase();
   location.href = userEmail === ADMIN_EMAIL ? "admin" : "dashboard";
 }
